@@ -1,13 +1,13 @@
-<?php 
-class database  
+<?php
+class database
 {
     public static  function conectar()
     {
-        $db= new mysqli("localhost","root","","superatedatabase");
+        $db= new mysqli("remotemysql.com","6NKazsYnfu","uAGJFsP3P7","6NKazsYnfu");
         $r=$db->query("set names 'utf8' ");
-        return $db;    
+        return $db;
     }
-   
+
 }
 
 
