@@ -4,7 +4,7 @@ require '../db/conexion.php';
 require 'base.php';
 
 $db=database::conectar();
-$categoria=$db->query("select Nombre,id from Categoria")->fetch_all(MYSQLI_ASSOC);
+$categorias=$db->query("select Nombre,id from  categoria")->fetch_all(MYSQLI_ASSOC);
 
 $cursos=$db->query("SELECT * from curso ")->fetch_all(MYSQLI_ASSOC);
 session_start();
