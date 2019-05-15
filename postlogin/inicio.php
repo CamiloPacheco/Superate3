@@ -1,19 +1,33 @@
-<?php
+<?php 
 require '../db/conexion.php';
-require '../vendor/autoload.php';
-require 'base.php';
+ 
+ 
+ 
 
 $db=database::conectar();
-$conn=mysqli_connect('remotemysql.com','6NKazsYnfu','uAGJFsP3P7','6NKazsYnfu');
-$sql="select Nombre,id from Categoria";
-$result=mysqli_query($conn,$sql);
-$categoria=mysqli_fetch_all($result,MYSQLI_ASSOC);
-session_start();
-$email=$_SESSION['email'];
-FB::log($_SESSION);
-$cursos=$db->query("SELECT * from curso where curso.id in (SELECT c.id_curso from usuarios_cursos as c where c.id_usuario= (SELECT u.id from usuarios as u where u.Email='$email'))")->fetch_all(MYSQLI_ASSOC);
 
-FB::log($categorias);
+try {
+   
+ $categorias=$db->query("select Nombre,id from  categoria")->fetch_all(MYSQLI_ASSOC);
+  
+        session_start();
+         
+        $email=$_SESSION['email'];
+         
+        $cursos=$db->query("SELECT * from curso where curso.id in (SELECT c.id_curso from usuarios_cursos as c where c.id_usuario= (SELECT u.id from usuarios as u where u.Email='$email'))")->fetch_all(MYSQLI_ASSOC);
+         
+        
+    
+        
+        
+    
+} catch (Exception $e) {
+    echo "error:".$db->error;
+    echo "error ";
+    die();
+}
+
+
 
 ?>
 
@@ -30,15 +44,15 @@ FB::log($categorias);
         <meta name="description" content="">
 		<!-- Mobile Specific Meta -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        
         <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
-
+        
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
-
+        
         <!-- Syntax Highlighter -->
         <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shCore.css" media="all">
         <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shThemeDefault.css" media="all">
-
+		
 		<!-- Font Awesome CSS-->
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <!-- Normalize/Reset CSS-->
@@ -60,11 +74,11 @@ FB::log($categorias);
 	<link rel="stylesheet" href="../css/animate.min.css">
 	<link rel="stylesheet" href="../css/owl.carousel.css">
     <link rel="stylesheet" href="../css/main.css">
-
+		
     </head>
-
+	
     <body id="welcome">
-
+    
         <aside class="left-sidebar">
             <div class="logo">
                 <a href="#welcome">
@@ -78,11 +92,11 @@ FB::log($categorias);
                     <li><a href="#tmpl-structure">Añadir clase</a></li>
                     <li><a href="#css-structure">Mis curso</a></li>
                     <li> <a href="cerrarsesion.php">cerrar sesion</a></li>
-
+                     
                 </ul>
             </nav>
         </aside>
-
+		
 		<div id="main-wrapper">
 		    <div class="main-content">
 		        <section id="welcome">
@@ -90,33 +104,33 @@ FB::log($categorias);
 		                <h1>Bienvenido </h1>
 		            </div>
 		            <div class="welcome">
-
+                        
                         <h2 class="twenty"><?php    echo isset($_SESSION['Nombre'])?$_SESSION['Nombre'] : "no login" ?></h2>
 
                         <p>Perfil profesor </p>
 
                         <p>  Dedicarse a la docencia es una profesión muy vocacional, donde tiene gran peso la motivación por transmitir conocimientos y estar en contacto con estudiantes y profesionales deseosos de seguir aprendidendo y evolucionando.</p>
 		            </div>
-
+		            
 		            <div class="features">
 		                <h2 class="twenty">Aqui prodras</h2>
-
+		                
 		                <ul>
 		                    <li> crear cursos   </li>
                             <li> Crear clases para tus cursos </li>
                             <li>Subir video y imagenes para cursos y clases </li>
-
+                             
 		                </ul>
 		            </div>
 
 		        </section>
-
+		        
 		        <section id="installation">
                     <div class="content-header">
 		                <h1>Crear curso </h1>
                     </div>
-
-
+                     
+                    
                     <div class="section-content">
                     <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
@@ -150,16 +164,16 @@ FB::log($categorias);
                     <h4>Categoria </h4>
                     <div class="input-wrap">
                     <select class="custom-select" name="tipo" id="inputGroupSelect01" required>
-                         <?php
-
+                         <?php 
+                         
                          foreach ($categorias as $f ) {
-
+                            
                              echo "<option value={$f['id']}>{$f['Nombre']}</option>";
                          }
-
+                         
                          ?>
                      </select>
-
+                    
                     </div>
                 </div>
             </div>
@@ -168,14 +182,14 @@ FB::log($categorias);
                     <i class="ti-medall-alt"></i>
                     <h4>Img del curso </h4>
                     <div class="input-wrap">
-
+                     
                     <div class="custom-file">
                             <input type="file" name="file" accept ="image/png, image/jpeg "class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
                             <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                             <button for="inputGroupFile04" type="submit" class="btn search-btn">Agregar curso</button>
-
+                     
                     </div>
-
+                   
                 </div>
             </div>
 </form>
@@ -183,7 +197,7 @@ FB::log($categorias);
 
                     </div>
                     </div>
-
+		            
 		        </section>
 
 
@@ -197,7 +211,7 @@ FB::log($categorias);
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="section-title text-center">
-
+                
                     <p>
                         Añadir clases de la manera mas facil sigue los pasos y sube una clase de una manera rapida y sencilla
                     </p>
@@ -252,17 +266,17 @@ FB::log($categorias);
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay=".1s">
                     <select class="custom-select" name="curso" id="inputGroupSelect01" required>
 
-                    <?php
-
+                    <?php 
+                         
                          foreach ($cursos as $f ) {
-
+                            
                              echo "<option value={$f['id']}>{$f['Nombre']}</option>";
                          }
                          ?>
                          </select>
                     </div>
                 </div>
-            </div>
+            </div>	
             <div class="col-lg-4 col-md-6">
                 <div class="feature-item">
                     <i class="ti-files"></i>
@@ -299,14 +313,14 @@ FB::log($categorias);
                 <div class="content-header">
 		                <h1>Mis cursos  </h1>
                     </div>
-
+		           
 		            <p class="fifteen">En esta seccion estan todos tus cursos    <strong>los cursos que no estan aqui no los creaste</strong>.</p>
                     <div class="row">
                     <?php if(count($cursos)>0){
-
+                        
                         foreach ($cursos as $c ) {
                         ?>
-
+            
   <div class="col-sm-4">
                     <div class="card" style="width: 18rem;">
   <img src="img/imgcursos/<?= $c['img']?>" class="card-img-top" alt="...">
@@ -318,31 +332,31 @@ FB::log($categorias);
                     </div>
 
   </div>
-
+            
 
 		            <?php } }else{echo"<h2>No tienes cursos aun </h2>";}?>
                     </div>
                 </section>
-
-
-
-
-
-
-
+		        
+	 
+		        
+		         
+		 
+		
+		
 		<!-- Essential JavaScript Libraries
 		==============================================-->
         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="js/jquery.nav.js"></script>
-        <script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script>
-        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script>
-        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script>
-        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script>
-        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script>
+        <script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script> 
+        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script> 
+        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script> 
+        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script> 
+        <script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script> 
         <script type="text/javascript">
             SyntaxHighlighter.all()
         </script>
         <script type="text/javascript" src="js/custom.js"></script>
-
+		
     </body>
 </html>
